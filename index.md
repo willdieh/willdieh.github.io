@@ -1,2 +1,0 @@
-# willdieh.github.io
-Website
