@@ -15,4 +15,4 @@ I've had many years of enjoyable time working in C++, but never really accomplis
 
 I've tried my hand at C++/winrt in the past, but the failure of MS to provide a visual XAML editor combined with forced packaging requirements, massive boilerplate code requirements and slow compile times really turned me off. Fast forward about 5 years and I'm back. This time with *claude* to help me (maybe) understand it better.
 
-I'll still be writing my code by hand and going through the learning experience.
+I'll still be writing my code by hand and going through the learning experience. I believe strongly in developing one's own mind and not relying on AI for results. So in this case, *claude* will serve as my teacher only, and not my servant.
