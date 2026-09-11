@@ -1,0 +1,6 @@
+---
+layout: post
+---
+{% include series-nav.html series=page.series %}
+
+{{ content }}
