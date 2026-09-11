@@ -1,0 +1,12 @@
+<div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
+  <strong>Series: {{ include.series }}</strong>
+  <ol>
+    {% assign series_posts = site.posts | where: "series", include.series | sort: "date" %}
+    {% for post in series_posts %}
+    <li><strong>{{ post.title }}</strong> (this post)</li>
+    {% else %}
+    <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endif %}
+    {% endfor %}
+  </ol>
+</div>
