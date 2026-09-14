@@ -11,7 +11,7 @@ With that said, today I'm beginning this blog to try and document my time learni
 
 I've had many years of enjoyable time working in C++, but never really accomplished much. I have a few repositories on Github for my hobby projects but most of them are incomplete. I thought a good subject to begin with is a return to **cpp/winrt**, Microsoft's abandoned native C++ workflow. 
 
-![C++/winrt and WebUI logos](/assets/images/winui-and-winrt-logos.png)
+![C++/winrt and WebUI logos](/assets/images/2026-09-11-winrt-1/winui-and-winrt-logos.png)
 
 I've tried my hand at cpp/winrt in the past, but the failure of MS to provide a visual XAML editor combined with forced packaging requirements, massive boilerplate code requirements and slow compile times really turned me off. Fast forward about 5 years and I'm back. This time with *claude* to help me (maybe) understand it better.
 
