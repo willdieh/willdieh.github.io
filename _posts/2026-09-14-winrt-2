@@ -1,0 +1,12 @@
+---
+layout: series-post
+title: "Working Through cpp/winrt Part 2 - Layout"
+date: 2026-09-14
+series: "cpp/winrt"
+---
+
+## Project Layout
+
+Let's take a look at the project layout created by the WebUI template
+
+![WinUI Project Layout](/assets/images/2026-09-14-winrt-2/winui-project-layout.png)
