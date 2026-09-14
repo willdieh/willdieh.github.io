@@ -32,6 +32,7 @@ Don't overuse both together (`***bold italic***`) — reads as shouting.
 **4. Links**
 ```markdown
 [link text](https://example.com)
+![img text](https://example.com/image.jpg)
 ```
 Write descriptive link text ("see the WinRT documentation") rather than bare URLs or "click here" — this also matters for accessibility (screen readers announce link text out of context).
 
