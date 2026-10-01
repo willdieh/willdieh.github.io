@@ -2,6 +2,35 @@ This public repository serves as the source for my Github Pages personal blog.
 Theme settings are found in _config.yml
 Using Minima - the default, blogger friendly, Github Pages theme
 
+##Documentation
+
+[Jekyll Documentation](https://jekyllrb.com/docs/)
+[Minima Documentation](https://github.com/jekyll/minima)
+
+## Page Entries
+
+Each new page entry should be created under `/_posts` and have the following "front matter" header:
+
+```yaml
+---
+layout: series-post
+title: "Working Through cpp/winrt Part 3 - MenuBar"
+date: 2026-09-30
+series: "cpp/winrt"
+published: true
+---
+```
+
+- `layout` This option specifies which layout is used for the post. I've used *Claude* to write a custom layout called `series-post` which adds a linked list of all posts in the same series to the top of a page. Other options are `post` and ???.
+- `title` The title of the post
+- `date` Overrides the permalink date normally calculated from the file name
+- `series` Used by custom `layout: series-post` to determine related posts when creating linked list in post
+- `published` Whether the post will be auto generated (published) immediately
+
+## Post Linking
+
+`[Name of Link]({% post_url 2010-07-21-name-of-post %})`
+
 ## Some *claude* generated MD tips:
 
 **1. Headers — use `#` symbols, and skip levels sparingly**
