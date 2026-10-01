@@ -5,6 +5,7 @@ Using Minima - the default, blogger friendly, Github Pages theme
 ##Documentation
 
 [Jekyll Documentation](https://jekyllrb.com/docs/)
+
 [Minima Documentation](https://github.com/jekyll/minima)
 
 ## Page Entries
