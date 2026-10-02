@@ -1,6 +1,7 @@
 ---
 layout: post
 ---
-{% include series-nav.html series=page.series %}
 
 {{ content }}
+
+{% include series-nav.html series=page.series %}
