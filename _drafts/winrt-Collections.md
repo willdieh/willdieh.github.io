@@ -160,3 +160,32 @@ Finally, remove the entire `<TextBlock>` from `MainWindow.xaml` - we won't be us
 Now we're ready to create a shiny new runtime class definition, just for our `Person` object! 
 
 Right-click on the project in Visual Studio and select Add, New Item..., and select **View Model (C++/WinRT)**. Name it `Person` and click Add.
+
+This will create a new `idl` file along with matching `cpp`/`h` files. Beautiful~! 
+
+The only problem is the `idl` file contains the `[bindable]` attribute. This attribute is required for the midl compiler to generate necessary code for run-time inspection so the `{Binding}` XAML attribute can be used. Unfortunately, `{Binding}` is the *old* and *slow* way of binding data to the XAML UI. The new and improved way is to use `{x:Bind}` (like we have been doing so far). The [Microsoft Documentation](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.data.bindableattribute?view=windows-app-sdk-2.0#remarks) for `BindableAttribute Class` says it's no longer needed if we're not using `{Binding}` - so we'll just removed it. 
+
+Let's fill out the rest of the runtime class:
+
+**`Person.idl`**
+```idl
+namespace WinUIApp : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+{
+    [default_interface]
+    runtimeclass Person 
+    {
+        Person(String firstName, String lastName, Windows.Foundation.DateTime dateOfBirth, String phoneNumber, String email);
+        
+        String FirstName;
+        String LastName;
+        Windows.Foundation.DateTime DateOfBirth;
+        Int32 Age{ get; };
+        String PhoneNumber;
+        String Email;
+    }
+}
+```
+
+- `Microsoft.UI.Xaml.Data.INotifyPropertyChanged` We have to inherit from this in order to send/receive data change events
+- `Person(...)` Constructor takes initial values
+- `Int32 Age{ get; };` Age is read-only and will be calculated based on DOB
