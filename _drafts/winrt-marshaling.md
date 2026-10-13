@@ -36,7 +36,24 @@ I expect we will just be running on the main UI thread. For those situations whe
 
 ## Open File ##
 
-Let's put all this into practice by working with the `FilePicker` to open a file from the OS.
+Let's put all this into practice by working with the `FilePicker` to open a CSV file, process it on a background thread to create `Person` objects, then update our UI.
+
+Our first run-through will be blissfully ignorant of threads and all that nonsense! Let's find out what happens!
+
+### CSV Format ###
+
+Create a new file in the project folder called `people.csv` and add a couple people, one line at a time like this:
+
+**`people.csv`**
+```csv
+Alice,Johnson,1995-06-15,555-0101,alice@example.com
+Bob,Martinez,1992-12-01,555-0102,bob@example.com
+Carol,Nguyen,1975-04-05,555-0103,carol@example.com
+Dan,Okafor,1990-02-20,555-0104,dan@example.com
+Eve,Kowalski,1988-09-30,555-0105,eve@example.com
+```
+
+### `FilePicker` ###
 
 
 
