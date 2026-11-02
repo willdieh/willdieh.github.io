@@ -10,7 +10,7 @@ published: false
 
 ### The Problem with Click Handlers ###
 
-In [a previous entry]({% post_url 2026-09-30-winrt-3 %}) we discussed click handlers in the context of setting up menu actions. The basic workflow was to create a function in our `MainWindow.xaml.cpp` file and bind it to the relevant xaml object in `MainWindow.xaml` using the `Click=` attribute. The click handler can either be a standard synchronous function for quick actions that won't impede the main UI thread or `winrt::fire_and_forget` coroutine functions that suspend and return to the main thread until they perform some action in the background and are then resumed. Pretty standard fare and easy to grok. Very similar to writing callback functions in good 'ol Win32.
+In [a previous entry]({% post_url 2026-09-30-winrt-3 %}) we discussed click handlers in the context of setting up menu actions. The basic workflow was to create a function in our `MainWindow.xaml.cpp` file and bind it to the relevant xaml object in `MainWindow.xaml` using the `Click=` attribute. The click handler can either be standard synchronous functions for quick actions that won't impede the main UI thread or `winrt::fire_and_forget` coroutine functions that suspend and return to the main thread until they perform some action in the background and are then resumed. Pretty standard fare and easy to grok. Very similar to writing callback functions in good 'ol Win32.
 
 So what's the problem then? 
 
@@ -20,7 +20,7 @@ Perhaps a more challenging issue with click handlers is how to *disable* a menu 
 
 Wouldn't it be great if we could create independent objects that perform actions and can be linked to xaml objects? Not only that, but could even hold properties like icons, labels, keyboard shortcuts, availability indicators, and descriptions. Say hello to my little friend, **XAML Commands**!
 
-### Command and Conquer ###
+### Command *and Conquer* ###
 
 [Documentation Here](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/commanding)
 
