@@ -34,8 +34,9 @@ XAML Commands come in three flavors, from pre-defined to completely customizable
 
 We'll start off with the `StandardUICommand` as it offers built-in functionality for most basic system functions, including labels, icons, and keyboard shortcuts:
 
-**Note**
->The following table is from the [Documentation](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.input.standarduicommand?view=windows-app-sdk-2.0#remarks) and seems to be inaccurate 2026-11-4
+>**Note** (2026-11-4)
+>
+>The following table is from the [Documentation](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.input.standarduicommand?view=windows-app-sdk-2.0#remarks) and seems to be inaccurate 
 
 | Command/Label | Description | Icon | Keyboard shortcut |
 | --- | --- | --- | --- |
@@ -58,8 +59,9 @@ We'll start off with the `StandardUICommand` as it offers built-in functionality
 
 See that big shiny **Open** Command? That's what we'll use in our project to replace our current Click Handler! 
 
-**Note**
->Before we continue, I just wanted to point out that our test application is really basic so implementing a XAML Command might be a bit overkill when our Click Handler is working just fine. The [Documentation](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/commanding#command-experiences-using-the-icommand-interface) even says we might be fine with just the Click Handler and a bound variable to update the Open menu item `IsEnabled` attribute.
+>**Note**
+>
+>Before we continue, I just wanted to point out that our test application is really basic, so implementing a XAML Command might be a bit overkill when our Click Handler is working just fine. The [Documentation](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/commanding#command-experiences-using-the-icommand-interface) even says we might be fine with just the Click Handler and a bound variable to update the Open menu item `IsEnabled` attribute.
 >
 >Since we never updated the `IsEnabled` attribute on the Open menu item when executing the Click Handler, we technically have a bug. While the `FileOpenPicker` window is modal and will prevent input on the parent `MainWindow` while open, once the coroutine suspends and the background file load process initiates, there might be a millisecond or two when another Open request could be submitted. 
 >
