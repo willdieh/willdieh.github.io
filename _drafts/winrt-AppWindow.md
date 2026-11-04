@@ -8,4 +8,6 @@ published: false
 
 ## AppWindow vs Window ##
 
-Window represents the XAML presentation of a window. AppWindow represents the underlying HWND object and allows modifying window behavior.
+`Window` represents the XAML presentation of a window. `AppWindow` represents the underlying `HWND` object and allows modifying window behavior.
+
+The `Window` class is based on an `AppWindow`. To retrieve and modify the underlying `AppWindow` you call `auto var = this->AppWindow();` in the `Window` class code.
