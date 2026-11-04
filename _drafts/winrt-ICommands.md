@@ -34,6 +34,9 @@ XAML Commands come in three flavors, from pre-defined to completely customizable
 
 We'll start off with the `StandardUICommand` as it offers built-in functionality for most basic system functions, including labels, icons, and keyboard shortcuts:
 
+**Note**
+>The following table is from the [Documentation](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.input.standarduicommand?view=windows-app-sdk-2.0#remarks) and seems to be inaccurate 2026-11-4
+
 | Command/Label | Description | Icon | Keyboard shortcut |
 | --- | --- | --- | --- |
 | Cut | Delete the selected content and copy it to the clipboard. | ![](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.input/images/segoe-fluent-icons/e8c6.png)E8C6 | Ctrl + X |
