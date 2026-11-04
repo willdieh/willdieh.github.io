@@ -55,11 +55,14 @@ We'll start off with the `StandardUICommand` as it offers built-in functionality
 
 See that big shiny **Open** Command? That's what we'll use in our project to replace our current Click Handler! 
 
-Before we continue, I just wanted to point out that our test application is really basic so implementing a XAML Command might be a bit overkill when our Click Handler is working just fine. The [Documentation](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/commanding#command-experiences-using-the-icommand-interface) even says we might be fine with just the Click Handler and a bound variable to update the Open menu item `IsEnabled` attribute.
+**Note**
+>Before we continue, I just wanted to point out that our test application is really basic so implementing a XAML Command might be a bit overkill when our Click Handler is working just fine. The [Documentation](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/commanding#command-experiences-using-the-icommand-interface) even says we might be fine with just the Click Handler and a bound variable to update the Open menu item `IsEnabled` attribute.
+>
+>Since we never updated the `IsEnabled` attribute on the Open menu item when executing the Click Handler, we technically have a bug. While the `FileOpenPicker` window is modal and will prevent input on the parent `MainWindow` while open, once the coroutine suspends and the background file load process initiates, there might be a millisecond or two when another Open request could be submitted. 
+>
+>So we accidentally set ourselves up with an excuse to implement the XAML Open Command because it will give us an easy way to take care of all that while teaching us the "best" way to do things.
 
-Since we never updated the `IsEnabled` attribute on the Open menu item when executing the Click Handler, we technically have a bug. While the `FileOpenPicker` window is modal and will prevent input on the parent `MainWindow` while open, once the coroutine suspends and the background file load process initiates, there might be a millisecond or two when another Open request could be submitted. 
-
-So we accidentally set ourselves up with an excuse to implement the XAML Open Command because it will give us an easy way to take care of all that while teaching us the "best" way to do things. Let's start off by updating our `MainWindow.xaml` file:
+Let's start off by updating our `MainWindow.xaml` file:
 
 **`MainWindow.xaml`**
 ```xaml
@@ -71,7 +74,7 @@ So we accidentally set ourselves up with an excuse to implement the XAML Open Co
             <StandardUICommand
                x:Name="OpenCommand"
                Kind="Open"
-               ExecuteRequested="OnExecuteRequested"/>
+               ExecuteRequested="OnOpenExecuteRequested"/>
         </Grid.Resources>
         ...
         <MenuBar Grid.Row="0">
@@ -91,14 +94,16 @@ To use the `StandardUICommand`, we first added it to the `Grid`'s local `Resourc
 auto c = OpenCommand();
 ```
 
-Once defined as a resource, it can be used by name within the `Grid` so we use it in the Open `MenuFlyOutItem`. Notice how we were able to remove the `Text=` and `Click=` attributes - the label and execute function will now be set from `OpenCommand`. We still had to define the `AccessKey` which is a bummer, but that's a menu specific setting so I guess it's understandable. It's still possible to override what `OpenCommand` provides by using the XAML attributes. If we wanted the label to be something different than just the default "Open" we can use `Text=` to set it.
+Once defined as a resource, it can be used by name within the `Grid` so we use it in the Open `MenuFlyoutItem`. Notice how we were able to remove the `Text=` and `Click=` attributes and even the entire `KeyboardAccelerator` section - all these will now be set from `OpenCommand`. We still had to define the `AccessKey` which is a bummer, but that's a menu specific setting so I guess it's understandable.
+
+It’s still possible to override what `OpenCommand` provides. If we wanted a label other than the default “Open,” we could set `Text=` on the `MenuFlyoutItem` to change it just for that item, or set `Label=` on the `StandardUICommand` itself to change it everywhere the command is used.
 
 We still need to create our `OnOpenExecuteRequested()` function in cpp to match the `ExecuteRequested` attribute. Let's do that now:
 
 **`MainWindow.xaml.h`**
 ```c++
 ...
-#include <winrt/Microsoft.UI.Xaml.Input.h>  // For XamUICommand/ExecuteRequestedEventArgs
+#include <winrt/Microsoft.UI.Xaml.Input.h>  // For XamlUICommand, ExecuteRequestedEventArgs
 ...
 namespace winrt::WinUIApp::implementation
 {
@@ -106,7 +111,9 @@ namespace winrt::WinUIApp::implementation
    {
    ...
    // Command ExecuteRequested Handlers
-   winrt::fire_and_forget OnOpenExecuteRequested(IInspectable const& sender, RoutedEventArgs const& e);
+   winrt::fire_and_forget OnOpenExecuteRequested(
+    winrt::Microsoft::UI::Xaml::Input::XamlUICommand const& sender,  
+    winrt::Microsoft::UI::Xaml::Input::ExecuteRequestedEventArgs const& args);
    
    // Click handlers
    void OnExitClick(IInspectable const& sender, RoutedEventArgs const& e);
