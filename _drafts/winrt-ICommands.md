@@ -36,7 +36,7 @@ We'll start off with the `StandardUICommand` as it offers built-in functionality
 
 >**Note** (2026-11-4)
 >
->The following table is from the [Documentation](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.input.standarduicommand?view=windows-app-sdk-2.0#remarks) and seems to be inaccurate 
+>The following table is from the [Documentation](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.input.standarduicommand?view=windows-app-sdk-2.0#remarks) but seems to be inaccurate (eg, Open, Close, Paste)
 
 | Command/Label | Description | Icon | Keyboard shortcut |
 | --- | --- | --- | --- |
@@ -145,6 +145,66 @@ namespace winrt::WinUIApp::implementation
    }
 ...
 ```
+
+Recompile and you should have the same behavior as before but with some minor cosmetic differences
+- The menu will say "Open" and not "Open..." like before
+- The menu will have a cheezy icon that I've never seen in Windows for "Open" before
+- A popup with the command name will appear on hover
+
+![Open Command](/assets/images/2026-11-04-winrt-8/open-command.png)
+
+### Modifying a StandardUICommand ###
+
+Let's fix that nasty looking icon, get rid of the popup (a menu popup? really?), and revert the text to the old "Open..."
+
+**`MainWindow.xaml`**
+```xaml
+...
+   <Grid.Resources>
+      <StandardUICommand
+         Label="Open..."
+         x:Name="OpenCommand" 
+         Kind="Open" 
+         ExecuteRequested="OnOpenExecuteRequested">
+         <StandardUICommand.IconSource>
+            <FontIconSource Glyph="&#xED25;"/>
+         </StandardUICommand.IconSource>
+      </StandardUICommand>
+   </Grid.Resources>
+   ...
+   <MenuFlyoutItem Command="{StaticResource OpenCommand}"
+      AccessKey="O"
+      ToolTipService.ToolTip="{x:Null}"/>
+   ...
+```
+
+We re-define the `Label=` attribute, set the tooltip to `x:Null`, and set up a new icon.
+
+Icons can defined as XAML elements and be referenced in a [few different ways](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/icons): 
+- From a bitmap using [`BitmapIcon`](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.controls.bitmapicon)
+- From an image using [`ImageIcon`](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.controls.imageicon)
+- From a defined vector graphic using [`PathIcon`](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.controls.pathicon)
+- From a font using [`FontIcon`](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.controls.fonticon) and a `Glyph` number plus optional `FontFamily`
+   - Default font: [Segoe Fluent](https://learn.microsoft.com/en-us/windows/apps/design/iconography/segoe-fluent-icons-font) (Win11) or [MDL2 Assets](https://learn.microsoft.com/en-us/windows/apps/design/iconography/segoe-ui-symbol-font) (Win10)
+- By symbolic name from the Segoe MDL2 font using [`SymbolIcon`](https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.controls.symbolicon)
+
+The icon definitions above are meant for creating icons directly in the XAML layout. Each of the types above has an alternative `xxxxxxSource` version that lets you create a **shareable** icon resource. This resource can be placed in a resource dictionary and then referred to by its assigned key value or, as we assign it to our `OpenCommand`, be shared with any object that uses that command. 
+
+When creating our `FontIconSource` we have to use the glyph number which is kind of unfortunate. The font family used depends on which version of Windows we're running but both families share the same glyph numbers. Some weirdness like `e838` "Folder Open" is horizontal in one and vertical in another. We use glyph `ed25` "Open Folder Horizontal" to ensure a uniform look.
+
+`&#xE838;` is an XML character reference, a way of writing a Unicode character by its number:
+
+- `&#` starts a numeric character reference.
+- `x` means the number is hexadecimal.
+- `E838` is the character's Unicode code point, the part the font documentation lists.
+- `;` ends the reference.
+
+The XAML parser replaces the whole thing with the single character U+E838. If you ever set it from cpp, the equivalent is `L"\uE838"`.
+
+We could use a `SymbolIconSource` and reference by symbol *name* but we'd be limited to the subset of the Segoe MDL2 font that has been enumerated and that collection didn't really have a nice open folder like I wanted. The enumerated values are [documented here](https://learn.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.symbol).
+
+
+
 
 2. ICommand Basics
    What Execute, CanExecute, and CanExecuteChanged do, using
