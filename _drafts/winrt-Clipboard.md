@@ -8,5 +8,17 @@ published: false
 
 ## Using the Clipboard ##
 
-`DataPackage package`
-`Clipboard.SetContent(package)`
+```C++
+DataPackage package;
+// SetText (text), SetBitmap (img), SetStorageItems (files)
+Clipboard.SetContent(package)
+```
+
+Clipboard History
+
+Clipboard Roaming
+
+Clear Clipboard
+
+
+
